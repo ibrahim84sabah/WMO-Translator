@@ -15,6 +15,14 @@ const getAiClient = () => {
   const rawKey = process.env.API_KEY;
   const apiKey = sanitizeKey(rawKey);
 
+  // Debug log for Vercel troubleshooting (safe, only shows last 4 chars)
+  if (apiKey) {
+    const masked = apiKey.length > 4 ? `...${apiKey.slice(-4)}` : '****';
+    console.log(`[Gemini Service] Using API Key ending in: ${masked}`);
+  } else {
+    console.warn("[Gemini Service] No API Key found!");
+  }
+
   if (!apiKey) {
     throw new Error("API Key is missing. Please add 'VITE_API_KEY' to your Vercel Environment Variables and redeploy.");
   }

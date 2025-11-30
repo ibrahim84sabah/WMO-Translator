@@ -27,18 +27,33 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
           {isKeyError ? <ShieldAlert className="text-red-500" size={32} /> : <AlertTriangle className="text-red-500" size={32} />}
           <p className="font-bold text-lg text-red-400">Analysis Failed</p>
         </div>
-        <div className="opacity-90 max-w-md mx-auto break-words text-sm font-mono bg-red-950/50 p-3 rounded border border-red-900/50 mt-2">
+        <div className="opacity-90 max-w-md mx-auto break-words text-sm font-mono bg-red-950/50 p-3 rounded border border-red-900/50 mt-2 mb-4">
           {error}
         </div>
         
         {isKeyError && (
-          <div className="mt-4 text-xs text-red-300/80 bg-red-900/20 p-3 rounded">
-            <strong>Troubleshooting Hint:</strong>
-            <ul className="list-disc list-inside mt-1 space-y-1 text-left">
-              <li>Check that <code>VITE_API_KEY</code> is set correctly in Vercel.</li>
-              <li>Ensure the key has no extra spaces or quotes (e.g., <code>AIza...</code> not <code>"AIza..."</code>).</li>
-              <li>Check <strong>Google Cloud Console</strong> &gt; APIs & Services &gt; Credentials. If your key has "Application restrictions", ensure your Vercel URL is allowed.</li>
-            </ul>
+          <div className="text-left text-xs text-red-100 bg-red-900/30 p-4 rounded-lg border border-red-800/50">
+            <p className="font-bold text-red-300 mb-2 border-b border-red-800/50 pb-1">Troubleshooting "API Key Invalid" on Vercel:</p>
+            <ol className="list-decimal list-inside space-y-2 text-red-200/80">
+              <li>
+                Check <strong>Google Cloud Console</strong> &gt; APIs & Services &gt; Credentials.
+              </li>
+              <li>
+                Click your API Key to edit it and look at <strong>"Application restrictions"</strong>.
+              </li>
+              <li>
+                If it is set to <strong>"HTTP referrers (websites)"</strong>, you MUST add your exact Vercel URL (e.g., <code>https://your-app.vercel.app/*</code>).
+              </li>
+              <li>
+                <strong>Quick Fix:</strong> Temporarily set restrictions to <strong>"None"</strong> and save. Wait 1-2 minutes and try again.
+              </li>
+              <li>
+                Ensure you copied the key correctly into Vercel Environment Variables without quotes.
+              </li>
+            </ol>
+            <p className="mt-3 text-red-400 italic opacity-75 text-[10px]">
+              Note: Check your browser console (F12) to see a masked version of the key being used.
+            </p>
           </div>
         )}
       </div>
