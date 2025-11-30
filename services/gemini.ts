@@ -9,7 +9,7 @@ const getAiClient = () => {
   const apiKey = process.env.API_KEY;
 
   if (!apiKey) {
-    throw new Error("API Key is missing. Please add 'VITE_API_KEY' to your Vercel Environment Variables.");
+    throw new Error("API Key is missing. Please add 'VITE_API_KEY' to your Vercel Environment Variables and redeploy.");
   }
   return new GoogleGenAI({ apiKey });
 };
@@ -112,7 +112,7 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
         wmoCodeNumber: "N/A",
         name: "Translation Error",
         nameAr: "",
-        description: text, // Show raw text so user sees what happened
+        description: text || "No response text generated.", // Show raw text so user sees what happened
         descriptionAr: "",
         groundingUrls: Array.from(new Set(groundingUrls)),
       };
@@ -120,10 +120,15 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
 
   } catch (error: any) {
     console.error("Gemini API Error:", error);
-    // Return a user-friendly error message
-    if (error.message.includes("API Key is missing")) {
+    
+    // Pass through specific API Key errors
+    if (error.message && error.message.includes("API Key is missing")) {
        throw error;
     }
-    throw new Error("Failed to translate weather code. Please check your connection or try again.");
+    
+    // Pass through real API errors (e.g., 400 Bad Request, 403 Forbidden)
+    // This allows the user to see "Error: [403] ..." which is crucial for debugging Vercel keys.
+    const errorMessage = error.message || "Unknown error";
+    throw new Error(`Translation failed: ${errorMessage}`);
   }
 };

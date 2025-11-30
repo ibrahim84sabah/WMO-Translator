@@ -1,6 +1,6 @@
 import React from 'react';
 import { WeatherTranslation } from '../types';
-import { CloudRain, ExternalLink, Info, CheckCircle2, Languages, Hash } from 'lucide-react';
+import { CloudRain, ExternalLink, Info, CheckCircle2, Languages, Hash, AlertTriangle } from 'lucide-react';
 
 interface ResultCardProps {
   data: WeatherTranslation | null;
@@ -20,9 +20,13 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
 
   if (error) {
     return (
-      <div className="w-full max-w-2xl mx-auto mt-8 p-6 bg-red-900/20 rounded-2xl border border-red-800 text-red-400 text-center">
-        <p className="font-semibold">Error</p>
-        <p>{error}</p>
+      <div className="w-full max-w-2xl mx-auto mt-8 p-6 bg-red-950/40 rounded-2xl border border-red-800 text-red-200 text-center shadow-lg">
+        <div className="flex flex-col items-center gap-2 mb-2">
+          <AlertTriangle className="text-red-500" size={32} />
+          <p className="font-bold text-lg text-red-400">Analysis Failed</p>
+        </div>
+        <p className="opacity-90">{error}</p>
+        <p className="text-xs text-red-400/60 mt-4">If this persists, check your API Key and Network.</p>
       </div>
     );
   }
