@@ -1,12 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 import { WeatherTranslation } from "../types";
 
+// Helper to sanitize the key (remove quotes if user added them in Vercel, and trim whitespace)
+const sanitizeKey = (key: string | undefined): string => {
+  if (!key) return "";
+  return key.replace(/["']/g, "").trim();
+};
+
 // Helper to safely get the AI client
 // We initialize it lazily to prevent the app from crashing on startup if the key is missing.
 const getAiClient = () => {
   // Priority: process.env.API_KEY (Polyfilled by Vite or standard env)
   // The API key must be obtained exclusively from the environment variable process.env.API_KEY
-  const apiKey = process.env.API_KEY;
+  const rawKey = process.env.API_KEY;
+  const apiKey = sanitizeKey(rawKey);
 
   if (!apiKey) {
     throw new Error("API Key is missing. Please add 'VITE_API_KEY' to your Vercel Environment Variables and redeploy.");
@@ -127,8 +134,14 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
     }
     
     // Pass through real API errors (e.g., 400 Bad Request, 403 Forbidden)
-    // This allows the user to see "Error: [403] ..." which is crucial for debugging Vercel keys.
-    const errorMessage = error.message || "Unknown error";
-    throw new Error(`Translation failed: ${errorMessage}`);
+    // We try to extract the useful part of the Google error
+    let errorMessage = error.message || "Unknown error";
+    
+    // Simplistic check for common Google API errors to make them readable
+    if (errorMessage.includes("API key not valid")) {
+      errorMessage = "API Key Invalid. Please check your Vercel environment variable.";
+    }
+
+    throw new Error(errorMessage);
   }
 };

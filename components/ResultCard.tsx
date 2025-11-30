@@ -1,6 +1,6 @@
 import React from 'react';
 import { WeatherTranslation } from '../types';
-import { CloudRain, ExternalLink, Info, CheckCircle2, Languages, Hash, AlertTriangle } from 'lucide-react';
+import { CloudRain, ExternalLink, Info, CheckCircle2, Languages, Hash, AlertTriangle, ShieldAlert } from 'lucide-react';
 
 interface ResultCardProps {
   data: WeatherTranslation | null;
@@ -19,14 +19,28 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
   }
 
   if (error) {
+    const isKeyError = error.toLowerCase().includes("api key") || error.includes("400") || error.includes("403");
+
     return (
       <div className="w-full max-w-2xl mx-auto mt-8 p-6 bg-red-950/40 rounded-2xl border border-red-800 text-red-200 text-center shadow-lg">
         <div className="flex flex-col items-center gap-2 mb-2">
-          <AlertTriangle className="text-red-500" size={32} />
+          {isKeyError ? <ShieldAlert className="text-red-500" size={32} /> : <AlertTriangle className="text-red-500" size={32} />}
           <p className="font-bold text-lg text-red-400">Analysis Failed</p>
         </div>
-        <p className="opacity-90">{error}</p>
-        <p className="text-xs text-red-400/60 mt-4">If this persists, check your API Key and Network.</p>
+        <div className="opacity-90 max-w-md mx-auto break-words text-sm font-mono bg-red-950/50 p-3 rounded border border-red-900/50 mt-2">
+          {error}
+        </div>
+        
+        {isKeyError && (
+          <div className="mt-4 text-xs text-red-300/80 bg-red-900/20 p-3 rounded">
+            <strong>Troubleshooting Hint:</strong>
+            <ul className="list-disc list-inside mt-1 space-y-1 text-left">
+              <li>Check that <code>VITE_API_KEY</code> is set correctly in Vercel.</li>
+              <li>Ensure the key has no extra spaces or quotes (e.g., <code>AIza...</code> not <code>"AIza..."</code>).</li>
+              <li>Check <strong>Google Cloud Console</strong> &gt; APIs & Services &gt; Credentials. If your key has "Application restrictions", ensure your Vercel URL is allowed.</li>
+            </ul>
+          </div>
+        )}
       </div>
     );
   }
