@@ -4,9 +4,12 @@ import { WeatherTranslation } from "../types";
 // Helper to safely get the AI client
 // We initialize it lazily to prevent the app from crashing on startup if the key is missing.
 const getAiClient = () => {
+  // Priority: process.env.API_KEY (Polyfilled by Vite or standard env)
+  // The API key must be obtained exclusively from the environment variable process.env.API_KEY
   const apiKey = process.env.API_KEY;
+
   if (!apiKey) {
-    throw new Error("API Key is missing. Please add VITE_API_KEY or API_KEY to your environment variables.");
+    throw new Error("API Key is missing. Please add 'VITE_API_KEY' to your Vercel Environment Variables.");
   }
   return new GoogleGenAI({ apiKey });
 };
