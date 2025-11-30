@@ -1,0 +1,5 @@
+{
+  "name": "WMO Weather Decoder",
+  "description": "A professional tool to translate Aerodrome Present or Forecast Weather codes (WMO 49-2) to their descriptions and vice versa, powered by Gemini 2.5 Flash with Grounding.",
+  "requestFramePermissions": []
+}
