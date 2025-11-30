@@ -1,10 +1,15 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { WeatherTranslation } from "../types";
 
-// Initialize Gemini client
-// API Key is injected via process.env.API_KEY
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Helper to safely get the AI client
+// We initialize it lazily to prevent the app from crashing on startup if the key is missing.
+const getAiClient = () => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("API Key is missing. Please add VITE_API_KEY or API_KEY to your environment variables.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 const SYSTEM_INSTRUCTION = `
 You are an expert Aviation Meteorologist specializing in WMO-No. 306, Code table 4678 (Aerodrome Present or Forecast Weather) and WMO 49-2.
@@ -56,6 +61,7 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
   if (!input.trim()) throw new Error("Input cannot be empty");
 
   try {
+    const ai = getAiClient();
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: `Translate the following weather notation or name: "${input}"`,
@@ -109,8 +115,12 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
       };
     }
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini API Error:", error);
+    // Return a user-friendly error message
+    if (error.message.includes("API Key is missing")) {
+       throw error;
+    }
     throw new Error("Failed to translate weather code. Please check your connection or try again.");
   }
 };
