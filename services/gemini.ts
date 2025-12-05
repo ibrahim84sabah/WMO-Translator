@@ -24,7 +24,7 @@ const getAiClient = () => {
   }
 
   if (!apiKey) {
-    throw new Error("API Key is missing. Please add 'VITE_API_KEY' to your Vercel Environment Variables and redeploy.");
+    throw new Error("API Key is missing. Get one at https://aistudio.google.com/app/apikey and add 'VITE_API_KEY' to your Vercel Environment Variables.");
   }
   return new GoogleGenAI({ apiKey });
 };

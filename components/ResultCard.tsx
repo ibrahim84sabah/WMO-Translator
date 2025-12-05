@@ -36,7 +36,10 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
             <p className="font-bold text-red-300 mb-2 border-b border-red-800/50 pb-1">Troubleshooting "API Key Invalid" on Vercel:</p>
             <ol className="list-decimal list-inside space-y-2 text-red-200/80">
               <li>
-                Check <strong>Google Cloud Console</strong> &gt; APIs & Services &gt; Credentials.
+                Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline font-bold">Google Cloud Credentials</a>.
+              </li>
+              <li>
+                <strong>Important:</strong> Check the dropdown in the top blue bar. Ensure your project is selected!
               </li>
               <li>
                 Click your API Key to edit it and look at <strong>"Application restrictions"</strong>.
@@ -46,9 +49,6 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
               </li>
               <li>
                 <strong>Quick Fix:</strong> Temporarily set restrictions to <strong>"None"</strong> and save. Wait 1-2 minutes and try again.
-              </li>
-              <li>
-                Ensure you copied the key correctly into Vercel Environment Variables without quotes.
               </li>
             </ol>
             <p className="mt-3 text-red-400 italic opacity-75 text-[10px]">
