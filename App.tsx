@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { Plane, BookOpen, Github, HelpCircle } from 'lucide-react';
+import { Plane, BookOpen, Github } from 'lucide-react';
 import { translateWeather } from './services/gemini';
 import { WeatherTranslation, HistoryItem } from './types';
 import { InputForm } from './components/InputForm';
 import { ResultCard } from './components/ResultCard';
 import { BackgroundLogo } from './components/BackgroundLogo';
-import { SetupGuide } from './components/SetupGuide';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<WeatherTranslation | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
-  const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   const handleSearch = async (query: string) => {
     setLoading(true);
@@ -58,16 +56,6 @@ const App: React.FC = () => {
         
         {/* Header */}
         <header className="relative text-center mb-12 space-y-4">
-          <div className="absolute right-0 top-0 hidden md:block">
-            <button 
-              onClick={() => setIsGuideOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-full text-sm font-medium transition-colors border border-slate-700"
-            >
-              <HelpCircle size={16} />
-              Setup API Key
-            </button>
-          </div>
-
           <div className="inline-flex items-center justify-center p-3 bg-slate-800 rounded-2xl mb-4 border border-slate-700 shadow-sm">
             <Plane className="w-8 h-8 text-blue-500 rotate-[-45deg]" />
           </div>
@@ -78,17 +66,6 @@ const App: React.FC = () => {
             Instantly translate between aviation weather codes (METAR/TAF) and plain English descriptions. 
             Powered by standard WMO 49-2 tables and Google Search Grounding.
           </p>
-
-          {/* Mobile Guide Button */}
-          <div className="md:hidden pt-2">
-            <button 
-              onClick={() => setIsGuideOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-full text-sm font-medium transition-colors border border-slate-700"
-            >
-              <HelpCircle size={16} />
-              Setup API Key
-            </button>
-          </div>
         </header>
 
         {/* Main Interface */}
@@ -143,15 +120,9 @@ const App: React.FC = () => {
             <a href="https://codes.wmo.int/49-2/_AerodromePresentOrForecastWeather" target="_blank" rel="noreferrer" className="hover:text-blue-400 transition-colors">
               WMO Reference
             </a>
-            <span className="text-slate-700">•</span>
-            <button onClick={() => setIsGuideOpen(true)} className="hover:text-blue-400 transition-colors flex items-center gap-1">
-              API Setup Guide
-            </button>
           </div>
         </footer>
       </div>
-
-      <SetupGuide isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
     </div>
   );
 };
