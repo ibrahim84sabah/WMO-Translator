@@ -47,8 +47,8 @@ GUIDELINES:
 9. Provide the WMO Code Table 4677 (Synoptic) numeric code if applicable (e.g., '61' for slight rain, '45' for fog, '95' for thunderstorm). If not strictly applicable, provide the closest equivalent or 'N/A'.
 
 TERMINOLOGY ADJUSTMENTS:
-- CRITICAL: When translating "Mist" (BR) or "Light Fog" into Arabic, use the word "ضبيب" exclusively. Do not use "ضباب خفيف".
-- Conversely, if the input is "ضبيب", identify it as "Mist" (Code: BR).
+- CRITICAL: When translating "Mist" (BR) or "Light Fog" into Arabic, use the phrase "ضباب خفيف (ضبيب)" for the Name.
+- Conversely, if the input is "ضبيب" or "ضباب خفيف", identify it as "Mist" (Code: BR).
 
 OUTPUT FORMAT:
 You must strictly return the response in the following plain text block format so it can be parsed:
