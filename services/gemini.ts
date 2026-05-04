@@ -10,23 +10,14 @@ const sanitizeKey = (key: string | undefined): string => {
 // Helper to safely get the AI client
 // We initialize it lazily to prevent the app from crashing on startup if the key is missing.
 const getAiClient = () => {
-  // Priority: process.env.API_KEY (Polyfilled by Vite or standard env)
-  // The API key must be obtained exclusively from the environment variable process.env.API_KEY
-  const rawKey = process.env.API_KEY;
-  const apiKey = sanitizeKey(rawKey);
+  // Use the standard AI Studio environment variable
+  const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY || "";
+  const sanitizedKey = sanitizeKey(apiKey);
 
-  // Debug log for Vercel troubleshooting (safe, only shows last 4 chars)
-  if (apiKey) {
-    const masked = apiKey.length > 4 ? `...${apiKey.slice(-4)}` : '****';
-    console.log(`[Gemini Service] Using API Key ending in: ${masked}`);
-  } else {
-    console.warn("[Gemini Service] No API Key found!");
+  if (!sanitizedKey) {
+    throw new Error("Gemini API Key is missing. If you are running this locally, please add GEMINI_API_KEY to your .env file.");
   }
-
-  if (!apiKey) {
-    throw new Error("API Key is missing. Get one at https://aistudio.google.com/app/apikey and add 'VITE_API_KEY' to your Vercel Environment Variables.");
-  }
-  return new GoogleGenAI({ apiKey });
+  return new GoogleGenAI({ apiKey: sanitizedKey });
 };
 
 const SYSTEM_INSTRUCTION = `
@@ -85,26 +76,28 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
   try {
     const ai = getAiClient();
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `Translate the following weather notation or name: "${input}"`,
+      model: "gemini-3-flash-preview",
+      contents: [{ role: "user", parts: [{ text: `Translate the following weather notation or name: "${input}"` }] }],
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
         tools: [{ googleSearch: {} }], // Enable Search Grounding for accuracy
-        temperature: 0.3, // Keep it deterministic for codes
+        temperature: 0.2, // Lower temperature for more consistent code responses
       },
     });
 
     const text = response.text || "";
     
     // Extract grounding metadata if available
-    const groundingChunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+    const groundingMetadata = response.candidates?.[0]?.groundingMetadata;
     const groundingUrls: string[] = [];
     
-    groundingChunks.forEach(chunk => {
-      if (chunk.web?.uri) {
-        groundingUrls.push(chunk.web.uri);
-      }
-    });
+    if (groundingMetadata?.groundingChunks) {
+      groundingMetadata.groundingChunks.forEach(chunk => {
+        if (chunk.web?.uri) {
+          groundingUrls.push(chunk.web.uri);
+        }
+      });
+    }
 
     // Parse the structured text response with case-insensitive regex
     const codeMatch = text.match(/CODE:\s*(.+)/i);

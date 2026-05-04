@@ -11,9 +11,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     define: {
-      // Polyfill process.env.API_KEY for compatibility.
-      // We check env.API_KEY (loaded from .env), process.env.API_KEY (system env), and env.VITE_API_KEY.
-      // We default to '' to prevent 'process is not defined' runtime errors if the key is missing.
+      // Polyfill process.env for compatibility in the browser.
+      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || process.env.GEMINI_API_KEY || ''),
       'process.env.API_KEY': JSON.stringify(env.API_KEY || process.env.API_KEY || env.VITE_API_KEY || ''),
     },
   };
