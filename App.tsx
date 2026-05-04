@@ -39,12 +39,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 selection:bg-emerald-500/30 relative">
+    <div className="min-h-screen bg-[#f0fdf4] text-slate-900 selection:bg-imos-green/20 relative">
       {/* Background decoration with Logo */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none flex items-center justify-center">
         {/* Glow Effects */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-600/10 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-green-600/10 rounded-full blur-[120px]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-imos-green/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-imos-blue/10 rounded-full blur-[120px]"></div>
         
         {/* Central Logo Watermark */}
         <div className="w-[80vw] h-[80vw] md:w-[600px] md:h-[600px] absolute opacity-[0.05] transform scale-125">
@@ -57,24 +57,27 @@ const App: React.FC = () => {
         {/* Header */}
         <header className="relative text-center mb-12 space-y-4">
           <div className="inline-flex flex-col items-center justify-center gap-4 mb-4">
-            <div className="p-0 bg-transparent shadow-2xl overflow-hidden rounded-full">
+            <div className="p-0 bg-transparent shadow-2xl overflow-hidden rounded-full ring-12 ring-emerald-500/5">
               <img 
-                src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1062579519072520" 
+                src="/logo.png" 
                 alt="Iraq Meteorological Organization Logo" 
-                className="w-40 h-40 md:w-56 md:h-56 object-contain"
+                className="w-44 h-44 md:w-64 md:h-64 object-contain"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
-                  if (!(e.target as HTMLImageElement).src.includes('agromet')) {
-                    (e.target as HTMLImageElement).src = 'https://www.agromet.gov.iq/images/logo.png';
+                  const target = e.target as HTMLImageElement;
+                  if (target.src.includes('logo.png')) {
+                    target.src = 'https://www.agromet.gov.iq/images/logo.png';
+                  } else if (target.src.includes('agromet')) {
+                    target.src = 'https://upload.wikimedia.org/wikipedia/ar/b/bb/Logo_of_the_Iraq_Meteorological_Organization_and_Seismology.png';
                   }
                 }}
               />
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-            WMO Weather <span className="text-emerald-500">Decoder</span>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">
+            WMO Weather <span className="text-imos-green">Decoder</span>
           </h1>
-          <p className="max-w-xl mx-auto text-lg text-slate-400 leading-relaxed">
+          <p className="max-w-xl mx-auto text-lg text-slate-600 leading-relaxed">
             Met Service Professional Tool for translating aviation weather codes (METAR/TAF).
             Developed for the Iraq Meteorological Organization & Seismology.
           </p>
@@ -99,14 +102,14 @@ const App: React.FC = () => {
                 <button
                   key={item.id}
                   onClick={() => handleHistoryClick(item)}
-                  className="w-full text-left bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-emerald-500/50 rounded-xl p-4 transition-all group flex items-center justify-between shadow-sm hover:shadow-md"
+                  className="w-full text-left bg-white hover:bg-slate-50 border border-slate-200 hover:border-imos-green/50 rounded-xl p-4 transition-all group flex items-center justify-between shadow-sm hover:shadow-md"
                 >
                   <div className="flex items-center gap-4">
-                    <span className="font-mono text-emerald-400 font-bold bg-slate-900/50 px-2 py-1 rounded self-start border border-slate-700">
+                    <span className="font-mono text-imos-blue font-bold bg-slate-50 px-2 py-1 rounded self-start border border-slate-200">
                       {item.code}
                     </span>
                     <div className="flex flex-col">
-                      <span className="text-slate-200 font-medium group-hover:text-emerald-400 transition-colors">
+                      <span className="text-slate-800 font-medium group-hover:text-imos-green transition-colors">
                         {item.name}
                       </span>
                       {item.nameAr && (

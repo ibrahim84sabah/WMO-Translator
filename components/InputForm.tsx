@@ -20,11 +20,11 @@ export const InputForm: React.FC<InputFormProps> = ({ onSearch, isLoading }) => 
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={handleSubmit} className="relative group">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <Search className="h-5 w-5 text-slate-500 group-focus-within:text-emerald-500 transition-colors" />
+          <Search className="h-5 w-5 text-slate-500 group-focus-within:text-imos-green transition-colors" />
         </div>
         <input
           type="text"
-          className="block w-full pl-11 pr-32 py-4 bg-slate-800 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-slate-500 transition-all shadow-lg shadow-black/20 text-lg"
+          className="block w-full pl-11 pr-32 py-4 bg-white text-slate-900 rounded-xl border border-slate-200 focus:ring-2 focus:ring-imos-green focus:border-transparent placeholder-slate-400 transition-all shadow-lg shadow-black/5 text-lg"
           placeholder="e.g., +TSRA or Heavy Rain"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -34,8 +34,9 @@ export const InputForm: React.FC<InputFormProps> = ({ onSearch, isLoading }) => 
           <button
             type="submit"
             disabled={isLoading || !query.trim()}
-            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-all shadow-md active:scale-95 border border-transparent"
+            className="flex items-center gap-2 bg-imos-green hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-all shadow-md active:scale-95 border border-transparent"
           >
+
 
             {isLoading ? 'Decoding...' : 'Translate'}
             {!isLoading && <ArrowRightLeft size={16} />}
@@ -43,9 +44,9 @@ export const InputForm: React.FC<InputFormProps> = ({ onSearch, isLoading }) => 
         </div>
       </form>
       <div className="mt-3 flex gap-2 justify-center text-xs text-slate-500">
-        <span className="px-2 py-1 bg-slate-800 rounded border border-slate-700 shadow-sm cursor-pointer hover:bg-slate-700 hover:text-slate-300 transition-colors" onClick={() => setQuery('FG')}>Try: <strong>FG</strong> (Fog)</span>
-        <span className="px-2 py-1 bg-slate-800 rounded border border-slate-700 shadow-sm cursor-pointer hover:bg-slate-700 hover:text-slate-300 transition-colors" onClick={() => setQuery('+SHSN')}>Try: <strong>+SHSN</strong></span>
-        <span className="px-2 py-1 bg-slate-800 rounded border border-slate-700 shadow-sm cursor-pointer hover:bg-slate-700 hover:text-slate-300 transition-colors" onClick={() => setQuery('Volcanic Ash')}>Try: <strong>Volcanic Ash</strong></span>
+        <span className="px-2 py-1 bg-white rounded border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 hover:text-slate-700 transition-colors" onClick={() => setQuery('FG')}>Try: <strong>FG</strong> (Fog)</span>
+        <span className="px-2 py-1 bg-white rounded border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 hover:text-slate-700 transition-colors" onClick={() => setQuery('+SHSN')}>Try: <strong>+SHSN</strong></span>
+        <span className="px-2 py-1 bg-white rounded border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 hover:text-slate-700 transition-colors" onClick={() => setQuery('Volcanic Ash')}>Try: <strong>Volcanic Ash</strong></span>
       </div>
     </div>
   );
