@@ -59,16 +59,16 @@ const App: React.FC = () => {
           <div className="inline-flex flex-col items-center justify-center gap-4 mb-4">
             <div className="p-0 bg-transparent shadow-2xl overflow-hidden rounded-full ring-12 ring-emerald-500/5">
               <img 
-                src="/logo.png" 
+                src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/ar/b/bb/Logo_of_the_Iraq_Meteorological_Organization_and_Seismology.png" 
                 alt="Iraq Meteorological Organization Logo" 
                 className="w-44 h-44 md:w-64 md:h-64 object-contain"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  if (target.src.includes('logo.png')) {
+                  if (!target.src.includes('logo.png')) {
+                    target.src = '/logo.png';
+                  } else {
                     target.src = 'https://www.agromet.gov.iq/images/logo.png';
-                  } else if (target.src.includes('agromet')) {
-                    target.src = 'https://upload.wikimedia.org/wikipedia/ar/b/bb/Logo_of_the_Iraq_Meteorological_Organization_and_Seismology.png';
                   }
                 }}
               />
