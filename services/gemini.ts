@@ -80,8 +80,7 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
       contents: [{ role: "user", parts: [{ text: `Translate the following weather notation or name: "${input}"` }] }],
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
-        tools: [{ googleSearch: {} }], // Enable Search Grounding for accuracy
-        temperature: 0.2, // Lower temperature for more consistent code responses
+        temperature: 0.1, // Lower temperature for more consistent code responses
       },
     });
 
@@ -143,7 +142,11 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
     let errorMessage = error.message || "Unknown error";
     
     // Simplistic check for common Google API errors to make them readable
-    if (errorMessage.includes("API key not valid")) {
+    if (errorMessage.includes("429") || errorMessage.includes("RESOURCE_EXHAUSTED")) {
+      errorMessage = "لقد تجاوزت حد الاستخدام المجاني (Quota Exceeded). يرجى المحاولة مرة أخرى لاحقاً أو التأكد من إعدادات API Key.";
+    } else if (errorMessage.includes("500") || errorMessage.includes("INTERNAL")) {
+      errorMessage = "حدث خطأ داخلي في خوادم Google. يرجى المحاولة مرة أخرى بعد قليل.";
+    } else if (errorMessage.includes("API key not valid")) {
       errorMessage = "API Key Invalid. Please check your Vercel environment variable.";
     }
 
