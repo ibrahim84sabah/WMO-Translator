@@ -20,11 +20,11 @@ export const InputForm: React.FC<InputFormProps> = ({ onSearch, isLoading }) => 
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={handleSubmit} className="relative group">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <Search className="h-5 w-5 text-slate-500 group-focus-within:text-blue-500 transition-colors" />
+          <Search className="h-5 w-5 text-slate-500 group-focus-within:text-emerald-500 transition-colors" />
         </div>
         <input
           type="text"
-          className="block w-full pl-11 pr-32 py-4 bg-slate-800 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-500 transition-all shadow-lg shadow-black/20 text-lg"
+          className="block w-full pl-11 pr-32 py-4 bg-slate-800 text-white rounded-xl border border-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-slate-500 transition-all shadow-lg shadow-black/20 text-lg"
           placeholder="e.g., +TSRA or Heavy Rain"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -34,8 +34,9 @@ export const InputForm: React.FC<InputFormProps> = ({ onSearch, isLoading }) => 
           <button
             type="submit"
             disabled={isLoading || !query.trim()}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-all shadow-md active:scale-95 border border-transparent"
+            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-all shadow-md active:scale-95 border border-transparent"
           >
+
             {isLoading ? 'Decoding...' : 'Translate'}
             {!isLoading && <ArrowRightLeft size={16} />}
           </button>

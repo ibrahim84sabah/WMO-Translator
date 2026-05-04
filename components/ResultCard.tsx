@@ -12,7 +12,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
   if (loading) {
     return (
       <div className="w-full max-w-2xl mx-auto mt-8 p-8 bg-slate-800 rounded-2xl border border-slate-700 animate-pulse flex flex-col items-center justify-center min-h-[200px] shadow-sm">
-        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
         <p className="text-slate-400">Consulting WMO tables & Gemini...</p>
       </div>
     );
@@ -66,7 +66,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
     <div className="w-full max-w-2xl mx-auto mt-8 bg-slate-800 rounded-2xl border border-slate-700 shadow-xl shadow-black/20 overflow-hidden">
       {/* Header */}
       <div className="bg-slate-900/50 p-6 border-b border-slate-700 flex items-center gap-3">
-        <div className="p-3 bg-blue-500/10 rounded-lg text-blue-400 border border-blue-500/20">
+        <div className="p-3 bg-emerald-500/10 rounded-lg text-emerald-400 border border-emerald-500/20">
           <CloudRain size={24} />
         </div>
         <div>
@@ -87,7 +87,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
         <div className="space-y-4">
           <div className="space-y-2">
             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">WMO Code (Alpha)</label>
-            <div className="text-4xl font-mono font-bold text-blue-400 tracking-tight">
+            <div className="text-4xl font-mono font-bold text-emerald-400 tracking-tight">
               {data.code}
             </div>
           </div>
@@ -113,7 +113,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
               {data.name}
             </div>
             {data.nameAr && (
-              <div className="text-xl text-blue-400 font-medium mt-1" style={{ fontFamily: 'Cairo, sans-serif' }} dir="rtl">
+              <div className="text-xl text-emerald-400 font-medium mt-1" style={{ fontFamily: 'Cairo, sans-serif' }} dir="rtl">
                 {data.nameAr}
               </div>
             )}
@@ -163,7 +163,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({ data, loading, error }) 
                   href={url} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-xs text-blue-400 hover:text-blue-300 transition-colors truncate max-w-full"
+                  className="flex items-center gap-2 text-xs text-emerald-400 hover:text-emerald-300 transition-colors truncate max-w-full"
                 >
                   <ExternalLink size={10} />
                   <span className="truncate">{url}</span>
