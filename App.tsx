@@ -47,7 +47,7 @@ const App: React.FC = () => {
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-green-600/10 rounded-full blur-[120px]"></div>
         
         {/* Central Logo Watermark */}
-        <div className="w-[80vw] h-[80vw] md:w-[600px] md:h-[600px] absolute opacity-[0.03] transform scale-110">
+        <div className="w-[80vw] h-[80vw] md:w-[600px] md:h-[600px] absolute opacity-[0.05] transform scale-125">
           <BackgroundLogo />
         </div>
       </div>
@@ -57,12 +57,17 @@ const App: React.FC = () => {
         {/* Header */}
         <header className="relative text-center mb-12 space-y-4">
           <div className="inline-flex flex-col items-center justify-center gap-4 mb-4">
-            <div className="p-1 bg-white rounded-full border-4 border-emerald-500/20 shadow-xl overflow-hidden">
+            <div className="p-0 bg-transparent shadow-2xl overflow-hidden rounded-full">
               <img 
-                src="https://pbs.twimg.com/profile_images/1456184918716334080/4N3aVv-H_400x400.jpg" 
+                src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1062579519072520" 
                 alt="Iraq Meteorological Organization Logo" 
-                className="w-24 h-24 md:w-32 md:h-32 object-contain"
+                className="w-40 h-40 md:w-56 md:h-56 object-contain"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  if (!(e.target as HTMLImageElement).src.includes('agromet')) {
+                    (e.target as HTMLImageElement).src = 'https://www.agromet.gov.iq/images/logo.png';
+                  }
+                }}
               />
             </div>
           </div>
