@@ -144,6 +144,8 @@ export const translateWeather = async (input: string): Promise<WeatherTranslatio
     // Simplistic check for common Google API errors to make them readable
     if (errorMessage.includes("429") || errorMessage.includes("RESOURCE_EXHAUSTED")) {
       errorMessage = "لقد تجاوزت حد الاستخدام المجاني (Quota Exceeded). يرجى المحاولة مرة أخرى لاحقاً أو التأكد من إعدادات API Key.";
+    } else if (errorMessage.includes("API_KEY_HTTP_REFERRER_BLOCKED") || (errorMessage.includes("403") && errorMessage.includes("referer"))) {
+      errorMessage = "خطأ: النطاق (Domain) محظور في إعدادات مفتاح API الخاص بك. يرجى الذهاب إلى Google Cloud Console -> Credentials، واختيار مفتاح الـ API الخاص بك، ثم إضافة رابط موقعك في Vercel إلى القائمة المسموحة (HTTP referrers) أو تعطيل القيود مؤقتاً.";
     } else if (errorMessage.includes("500") || errorMessage.includes("INTERNAL")) {
       errorMessage = "حدث خطأ داخلي في خوادم Google. يرجى المحاولة مرة أخرى بعد قليل.";
     } else if (errorMessage.includes("API key not valid")) {
